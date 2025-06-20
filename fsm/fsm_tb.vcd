@@ -1,0 +1,201 @@
+$date
+	Fri Jun 20 10:47:34 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module fsm_tb $end
+$var wire 1 ! sum_t $end
+$var wire 1 " res_t $end
+$var parameter 32 # DURATION $end
+$var reg 1 $ a_t $end
+$var reg 1 % b_t $end
+$var reg 1 & clk $end
+$var reg 1 ' rst $end
+$scope module UUT $end
+$var wire 1 $ a $end
+$var wire 1 % b $end
+$var wire 1 & clk $end
+$var wire 1 ' rst $end
+$var wire 2 ( estado_actual [1:0] $end
+$var parameter 2 ) S1 $end
+$var parameter 2 * S2 $end
+$var parameter 2 + S3 $end
+$var parameter 2 , S4 $end
+$var reg 2 - estado_siguiente [1:0] $end
+$var reg 1 " restar $end
+$var reg 1 ! sumar $end
+$scope module FF0 $end
+$var wire 1 & clk $end
+$var wire 1 . d $end
+$var wire 1 ' reset $end
+$var reg 1 / q $end
+$upscope $end
+$scope module FF1 $end
+$var wire 1 & clk $end
+$var wire 1 0 d $end
+$var wire 1 ' reset $end
+$var reg 1 1 q $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b1 ,
+b11 +
+b10 *
+b0 )
+b1111101000 #
+$end
+#0
+$dumpvars
+01
+10
+0/
+0.
+b10 -
+b0 (
+1'
+0&
+0%
+1$
+0"
+0!
+$end
+#500000
+1&
+#1000000
+00
+b0 -
+0&
+1%
+#1500000
+1&
+#2000000
+1.
+b1 -
+0&
+0$
+#2500000
+1&
+#3000000
+0.
+b0 -
+0&
+0%
+#3500000
+1&
+#4000000
+0&
+#4500000
+1&
+#5000000
+0&
+#5500000
+1&
+#6000000
+1.
+b1 -
+0&
+1%
+#6500000
+1&
+#7000000
+0.
+b0 -
+0&
+1$
+#7500000
+1&
+#8000000
+10
+b10 -
+0&
+0%
+#8500000
+1&
+#9000000
+00
+b0 -
+0&
+0$
+#9500000
+1&
+#10000000
+0&
+#10500000
+1&
+#11000000
+0&
+#11500000
+1&
+#12000000
+0&
+#12500000
+1&
+#13000000
+0&
+1%
+1$
+#13500000
+1&
+#14000000
+0&
+0%
+0$
+#14500000
+1&
+#15000000
+0&
+#15500000
+1&
+#16000000
+0&
+#16500000
+1&
+#17000000
+0&
+#17500000
+1&
+#18000000
+0&
+#18500000
+1&
+#19000000
+0&
+#19500000
+1&
+#20000000
+0&
+#20500000
+1&
+#21000000
+0&
+#21500000
+1&
+#22000000
+0&
+#22500000
+1&
+#23000000
+0&
+#23500000
+1&
+#24000000
+0&
+#24500000
+1&
+#25000000
+0&
+#25500000
+1&
+#26000000
+0&
+#26500000
+1&
+#27000000
+0&
