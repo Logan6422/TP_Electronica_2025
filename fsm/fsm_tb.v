@@ -28,9 +28,10 @@ initial begin
   $dumpvars(0, fsm_tb);
     rst = 0;
 
-    rst = 1;
+    
 
     //ingreso
+    a_t = 0; b_t = 0; #10 
     a_t = 1; b_t = 0; #10
     a_t = 1; b_t = 1; #10
     a_t = 0; b_t = 1; #10
@@ -38,20 +39,24 @@ initial begin
 
     #20;
 
-    //salida
+    //egreso
+    a_t = 0; b_t = 0; #10 
     a_t = 0; b_t = 1; #10
     a_t = 1; b_t = 1; #10
     a_t = 1; b_t = 0; #10
-    a_t = 0; b_t = 0; #10 //res (-1) 
+    a_t = 0; b_t = 0; #10 //res(+1) 
 
-    #20;
-
-    //salida
-    a_t = 0; b_t = 0; #10
-    a_t = 1; b_t = 1; #10
-    a_t = 0; b_t = 0; #10
-    #20;
-
+    //peaton entrada
+    a_t = 0; b_t = 0; #10 
+    a_t = 1; b_t = 0; #10
+    a_t = 0; b_t = 1; #10
+    a_t = 0; b_t = 0; #10 // 0
+    
+    //peaton salida
+      a_t = 0; b_t = 0; #10 
+      a_t = 0; b_t = 1; #10
+      a_t = 1; b_t = 0; #10
+      a_t = 0; b_t = 0; #10 // 0
 
     #100
   $finish;
