@@ -9,7 +9,7 @@ parameter DURATION = 1000;
 
 //-- Clock signal. It is not used in this simulation
 reg clk = 0;
-always #5 clk = ~clk;
+always #10 clk = ~clk;
 
 //-- Leds port
 wire [2:0] leds_t;
@@ -26,7 +26,9 @@ initial begin
   //-- File were to store the simulation results
   $dumpfile(`DUMPSTR(`VCD_OUTPUT));
   $dumpvars(0, top_tb);
-    //rst = 0
+    rst = 1;
+    #50
+    rst = 0;
 
    
     //ingreso

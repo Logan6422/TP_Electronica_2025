@@ -3,7 +3,7 @@ module contador(
     output reg [2:0] count
 );
 
-always@(*)begin
+always@(posedge clk)begin
     if(reset)
         count <= 3'b000;
     else begin
