@@ -7,12 +7,13 @@ module top(
 wire p_suma, p_resta;
 wire [2:0] count_out;
 
-fsm FSM(.a(b1),.b(b2),.clk(clk),.rst(reset),.sumar(p_suma),.restar(p_resta));
-contador COUNTER(.clk(clk), .reset(reset),.sum(p_suma),.res(p_resta),.count(count_out));
+fsm FSM(.a(~b1),.b(~b2),.clk(clk),.rst(reset),.sumar(p_suma),.restar(p_resta));
+contador COUNTER(.clk(clk), .reset(reset),.sum(~p_suma),.res(~p_resta),.count(count_out));
 
 
-always@(*)begin
+always@(posedge clk)begin
     leds <= count_out;
 end
 
-endmodule;
+endmodule
+
