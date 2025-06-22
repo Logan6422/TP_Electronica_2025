@@ -1,0 +1,7 @@
+set_io --warn-no-port clk 94 
+set_io --warn-no-port rst 31 
+set_io --warn-no-port a 33 
+set_io --warn-no-port b 34 
+
+set_io --warn-no-port sumar 1 
+set_io --warn-no-port restar 2 
