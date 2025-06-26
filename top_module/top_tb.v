@@ -1,73 +1,89 @@
-`default_nettype none
+//`default_nettype none
 `define DUMPSTR(x) `"x.vcd`"
 `timescale 100 ns / 10 ns
 
 module top_tb();
 
-//-- Simulation time: 1us (10 * 100ns)
 parameter DURATION = 99999;
 
-//-- Clock signal. It is not used in this simulation
 reg clk = 0;
-always #10 clk = ~clk;
+always #10 clk = ~clk;  // 100ns período
 
-//-- Leds port
-wire [2:0] leds_t;
+// Señales de entrada
 reg rst = 1;
-reg b1_t = 0;
-reg b2_t = 0;  
+reg A = 0;
+reg B = 0;
 
-//-- Instantiate the unit to test
-top UUT(.reset(rst),.b1(b1_t),.b2(b2_t),.clk(clk),.leds(leds_t));
+// Salida de LEDs
+wire [2:0] leds_t;
 
+// Instancia del módulo top
+top UUT (
+    .clk(clk),
+    .reset(rst),
+    .b1(A),
+    .b2(B),
+    .leds(leds_t)
+);
 
 initial begin
-    
-  //-- File were to store the simulation results
-  $dumpfile(`DUMPSTR(`VCD_OUTPUT));
-  $dumpvars(0, top_tb);
+    $dumpfile(`DUMPSTR(`VCD_OUTPUT));
+    $dumpvars(0, top_tb);
+
+    // Reset inicial
     rst = 0;
-    #50
+    #50;
     rst = 1;
 
-   
-    //ingreso
-    b1_t = 0; b2_t = 0; #10 
-    b1_t = 1; b2_t = 0; #10
-    b1_t = 1; b2_t = 1; #10
-    b1_t = 0; b2_t = 1; #10
-    b1_t = 0; b2_t = 0; #10 //sum (+1) 
-
-    #20;
-
-    //egreso
-    b1_t = 0; b2_t = 0; #10 
-    b1_t = 0; b2_t = 1; #10
-    b1_t = 1; b2_t = 1; #10
-    b1_t = 1; b2_t = 0; #10
-    b1_t = 0; b2_t = 0; #10 //sum (+1) 
-
-    //ingreso
-    b1_t = 0; b2_t = 0; #10 
-    b1_t = 1; b2_t = 0; #10
-    b1_t = 1; b2_t = 1; #10
-    b1_t = 0; b2_t = 1; #10
-    b1_t = 0; b2_t = 0; #10 //sum (+1) 
-
-    //peaton
-    b1_t = 0; b2_t = 0; #10 
-    b1_t = 1; b2_t = 0; #10
-    b1_t = 0; b2_t = 1; #10
-    b1_t = 0; b2_t = 0; #10 //sum (+1) 
-
-    //peaton
-    b1_t = 0; b2_t = 0; #10 
-    b1_t = 0; b2_t = 1; #10
-    b1_t = 1; b2_t = 0; #10
-    b1_t = 0; b2_t = 0; #10 //sum (+1) 
-
+    // === Ingreso de auto (suma) ===
+    A = 0; B = 0; #100;
+    A = 1; B = 0; #100; // s0 -> s1
+    A = 1; B = 1; #100; // s1 -> s2
+    A = 0; B = 1; #100; // s2 -> s3
+    A = 0; B = 0; #100; // s3 -> s0 => S = 1 (entrada de auto)
+      
     #100
-  $finish;
+
+    // === Ingreso de auto (suma) ===
+    A = 0; B = 0; #100;
+    A = 1; B = 0; #100; // s0 -> s1
+    A = 1; B = 1; #100; // s1 -> s2
+    A = 0; B = 1; #100; // s2 -> s3
+    A = 0; B = 0; #100; // s3 -> s0 => S = 1 (entrada de auto)
+
+    #100;
+
+    // === Egreso de auto (resta) ===
+    A = 0; B = 0; #100;
+    A = 0; B = 1; #100; // s0 -> s1
+    A = 1; B = 1; #100; // s1 -> s2
+    A = 1; B = 0; #100; // s2 -> s3
+    A = 0; B = 0; #100; // s3 -> s0 => S = 1 (entrada de auto)
+
+    #100;
+
+    // === Egreso de auto (resta) ===
+    A = 0; B = 0; #100;
+    A = 0; B = 1; #100; // s0 -> s1
+    A = 1; B = 1; #100; // s1 -> s2
+    A = 1; B = 0; #100; // s2 -> s3
+    A = 0; B = 0; #100; // s3 -> s0 => S = 1 (entrada de auto)
+
+    #100;
+    
+    // === Secuencia invalida (ignorar) ===
+    A = 0; B = 0; #100;
+    A = 1; B = 1; #100; 
+    A = 1; B = 1; #100; 
+    A = 0; B = 0; #100; 
+    A = 0; B = 1; #100; 
+
+    #100;
+
+    $finish;
+    
 end
+
+
 
 endmodule

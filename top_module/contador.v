@@ -11,9 +11,9 @@ module contador(
 
     always @(posedge clk) begin
         if (~reset) begin
-            count <= 0;
-            sum_d <= 1;  // asumimos botones activos bajos
-            res_d <= 1;
+            count <= 3'b000;
+            sum_d <= 0;  // asumimos botones activos bajos
+            res_d <= 0;
         end else begin
             // Guardar los valores actuales para comparar en el próximo ciclo
             sum_d <= sum;

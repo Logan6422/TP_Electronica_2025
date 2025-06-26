@@ -4,8 +4,8 @@ module ff_d(
 );
 
 
-always @(posedge clk or posedge reset)begin
-    if(reset)
+always @(posedge clk)begin
+    if(~reset)
         q <= 0;
     else
         q <= d;

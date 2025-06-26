@@ -1,65 +1,75 @@
-`default_nettype none
 `define DUMPSTR(x) `"x.vcd`"
 `timescale 100 ns / 10 ns
 
 module fsm_tb();
 
-//-- Simulation time: 1us (10 * 100ns)
-parameter DURATION = 1000;
+    parameter DURATION = 1000;
 
-//-- Clock signal. It is not used in this simulation
-reg clk = 0;
-always #5 clk = ~clk;
+    reg clk = 0;
+    always #5 clk = ~clk; // Período de 100ns
 
-//-- Leds port
-wire sum_t,res_t;
-reg rst = 1;
-reg a_t = 0;
-reg b_t = 0;  
+    // Señales de entrada
+    reg rst = 1;
+    reg A = 0;
+    reg B = 0;
 
-//-- Instantiate the unit to test
-fsm UUT(.rst(rst),.a(a_t),.b(b_t),.clk(clk),.sumar(sum_t),.restar(res_t));
-integer i;
+    // Salidas
+    wire S; // salida auto
+    wire E; // entrada auto
 
-initial begin
-    
-  //-- File were to store the simulation results
-  $dumpfile(`DUMPSTR(`VCD_OUTPUT));
-  $dumpvars(0, fsm_tb);
-    rst = 0;
+    // Instancia de la FSM
+    fsm UUT (
+        .clk(clk),
+        .rst(rst),
+        .A(A),
+        .B(B),
+        .S(S),
+        .E(E)
+    );
 
-    
+    initial begin
+        $dumpfile(`DUMPSTR(`VCD_OUTPUT));
+        $dumpvars(0, fsm_tb);
 
-    //ingreso
-    a_t = 0; b_t = 0; #10 
-    a_t = 1; b_t = 0; #10
-    a_t = 1; b_t = 1; #10
-    a_t = 0; b_t = 1; #10
-    a_t = 0; b_t = 0; #10 //sum (+1) 
+        // Reset
+        rst = 1;
+        #20;
+        rst = 0;
+        
 
-    #20;
+        // === Secuencia de entrada de auto ===
+        $display(">> INICIO: Ingreso de auto (esperamos E = 1 al final)");
 
-    //egreso
-    a_t = 0; b_t = 0; #10 
-    a_t = 0; b_t = 1; #10
-    a_t = 1; b_t = 1; #10
-    a_t = 1; b_t = 0; #10
-    a_t = 0; b_t = 0; #10 //res(+1) 
+        A = 0; B = 0; #100;
+        A = 1; B = 0; #100; // s0 -> s1
+        A = 1; B = 1; #100; // s1 -> s2
+        A = 0; B = 1; #100; // s2 -> s3
+        A = 0; B = 0; #100; // s3 -> s0 => S = 1 (entrada de auto)
 
-    //peaton entrada
-    a_t = 0; b_t = 0; #10 
-    a_t = 1; b_t = 0; #10
-    a_t = 0; b_t = 1; #10
-    a_t = 0; b_t = 0; #10 // 0
-    
-    //peaton salida
-      a_t = 0; b_t = 0; #10 
-      a_t = 0; b_t = 1; #10
-      a_t = 1; b_t = 0; #10
-      a_t = 0; b_t = 0; #10 // 0
+        #100;
 
-    #100
-  $finish;
-end
+        // === Secuencia de salida de auto ===
+        $display(">> INICIO: Salida de auto (esperamos S = 1 al final)");
+
+        A = 0; B = 0; #100;
+        A = 0; B = 1; #100; // s0 -> s3
+        A = 1; B = 1; #100; // s3 -> s2
+        A = 1; B = 0; #100; // s2 -> s1
+        A = 0; B = 0; #100; // s1 -> s0 => E = 1 (salida de auto)
+
+        #100;
+
+        // === Secuencia inválida ===
+        $display(">> INICIO: Secuencia inválida (no debe cambiar salidas)");
+
+        A = 0; B = 0; #100;
+        A = 1; B = 1; #100;
+        A = 0; B = 0; #100;
+
+        #100;
+
+        $display(">> Fin de simulación.");
+        $finish;
+    end
 
 endmodule
