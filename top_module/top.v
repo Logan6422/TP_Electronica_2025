@@ -13,8 +13,8 @@ module top(
     fsm FSM (
         .clk(clk),
         .rst(~reset),
-        .A(b1),
-        .B(b2),
+        .A(~b1),
+        .B(~b2),
         .S(pulse_restar), // S = salida auto → resta
         .E(pulse_sumar)   // E = entrada auto → suma
     );
