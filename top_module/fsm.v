@@ -1,10 +1,10 @@
-module fsm(                     // Definición del módulo FSM (Finite State Machine)
-    input wire clk,             // Entrada de reloj
-    input wire rst,             // Entrada de reset (activo alto)
-    input wire A,               // Entrada A (sensor)
-    input wire B,               // Entrada B (sensor)
-    output reg S,               // Salida S (por ejemplo, señal de salida de un auto)
-    output reg E                // Salida E (por ejemplo, señal de entrada de un auto)
+module fsm(                     
+    input wire clk,             
+    input wire rst,             
+    input wire A,               
+    input wire B,               
+    output reg S,               // Salida S (señal de salida de un auto)
+    output reg E                // Salida E (señal de entrada de un auto)
 );
 
     // Definición de estados como parámetros constantes
@@ -18,17 +18,17 @@ module fsm(                     // Definición del módulo FSM (Finite State Mac
 
     // Bloque secuencial que actualiza el estado y genera salidas
     always @(posedge clk or posedge rst) begin
-        if (rst) begin               // Si se activa el reset...
+        if (rst) begin               
             state <= S0;            // Volver al estado inicial
             prev_state <= S0;       // También reiniciar el estado previo
-            S <= 0;                 // Poner salida S en 0
-            E <= 0;                 // Poner salida E en 0
-        end else begin              // En flanco de subida de clk, si no hay reset...
+            S <= 0;                 
+            E <= 0;                 
+        end else begin              
             prev_state <= state;    // Guardar el estado actual como anterior
             state <= next_state;    // Avanzar al siguiente estado calculado
 
             // Generación de pulso de salida S:
-            // si se pasó de S1 a S0, entonces se activa S por 1 ciclo
+            // si se pasó de S1 a S0, entonces duracion: 1 ciclo
             if (prev_state == S1 && state == S0)
                 S <= 1;
             else
@@ -45,7 +45,7 @@ module fsm(                     // Definición del módulo FSM (Finite State Mac
 
     // Bloque combinacional que define las transiciones entre estados
     always @(*) begin
-        next_state = state;          // Por defecto, mantener el mismo estado
+        next_state = state;          
         case (state)
             S0: begin                // Estado S0: sin sensores activos
                 if ({A,B} == 2'b10)  // Si solo A está activo

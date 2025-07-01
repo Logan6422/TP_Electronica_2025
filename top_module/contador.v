@@ -18,6 +18,8 @@ module contador(
             sum_d <= sum;           
             res_d <= res;           
 
+            //asegura de que solo se active una vez por pulsación
+
             // Detecta flanco de bajada en 'sum': si antes era 1 y ahora es 0
             if (sum_d == 1 && sum == 0) begin
                 if (count < 7)      // Si el contador no está en el valor máximo (7)
